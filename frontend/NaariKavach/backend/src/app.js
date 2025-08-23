@@ -2,6 +2,11 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 
+// Import routes
+const sosRoutes = require('./routes/sosRoutes');
+const authRoutes = require('./routes/authRoutes');
+const locationRoutes = require('./routes/locationRoutes');
+
 const app = express();
 const PORT = process.env.PORT || 5000;
 
@@ -9,16 +14,23 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(bodyParser.json());
 
-// Routes
+// Test Route
 app.get('/', (req, res) => {
-    res.send('Welcome to NaariKavach API');
+    res.send('🚀 Welcome to NaariKavach API');
 });
 
-// Import routes here
-// const exampleRoute = require('./routes/exampleRoute');
-// app.use('/api/example', exampleRoute);
+// Use Routes
+app.use('/sos', sosRoutes);
+app.use('/auth', authRoutes);
+app.use('/location', locationRoutes);
+
+// Global Error Handler (optional but useful)
+app.use((err, req, res, next) => {
+    console.error('Error:', err.message);
+    res.status(500).json({ success: false, message: 'Internal Server Error' });
+});
 
 // Start the server
 app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
+    console.log(`✅ Server is running on http://localhost:${PORT}`);
 });

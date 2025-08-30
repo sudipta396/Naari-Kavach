@@ -1,6 +1,10 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const logger = require('./src/config/logger');
+
+logger.info('Server started');
+logger.error('An error occurred');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -20,5 +24,5 @@ app.get('/', (req, res) => {
 
 // Start the server
 app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
+    logger.info(`Server is running on http://localhost:${PORT}`);
 });
